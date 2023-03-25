@@ -1,12 +1,7 @@
-﻿namespace Factory.WebServer
+﻿namespace Factory
 {
     public class WebServer
-    {        
-            public void CreateWebServerConnection()
-            {
-            }
-
-
+    {      
             public void Start()
             {
                 Console.WriteLine("> [webserver] Starting...");

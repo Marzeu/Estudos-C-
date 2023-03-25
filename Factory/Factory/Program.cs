@@ -10,9 +10,9 @@
 //https://www.youtube.com/watch?v=arAz2Ff8s88&ab_channel=FilipeDeschamps
 //https://www.youtube.com/watch?v=uyOJ2jjBtBs&ab_channel=
 //
-using Factory.Core;
+using Factory;
 
-var core = new Core();
+var core = new Core(new DataBase(), new WebServer());
 
 try
 {

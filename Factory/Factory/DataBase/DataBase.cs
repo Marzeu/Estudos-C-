@@ -4,14 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Factory.DataBase
+namespace Factory
 {
     public class DataBase
     {
-        public void CreateDataBaseConnection()
-        {
-        }
-
+        
         public void Start()
         {
             Console.WriteLine("> [database] Starting...");
