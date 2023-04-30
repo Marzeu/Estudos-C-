@@ -9,9 +9,9 @@ namespace DesefioStone
         {
             var inputFile = @"C:\temp\teste.txt";
 
-            var lines = File.ReadAllLines(inputFile);
+            var lines = File.ReadAllLines(inputFile);   
 
-            int[,] matriz = new int[5, 5];
+            int[,] matriz = new int[lines.Length, lines[0].ToString().Replace(" ", "").Length];
             int x = 0;
 
             List<string> map = new List<string>();
@@ -37,8 +37,7 @@ namespace DesefioStone
 
             start.SetDistance(finish.X, finish.Y);
 
-            var activeTiles = new List<Tile>();
-            activeTiles.Add(start);
+            var activeTiles = new List<Tile> { start };
             var visitedTiles = new List<Tile>();
 
             while (activeTiles.Any())
@@ -70,7 +69,7 @@ namespace DesefioStone
                             //map.ForEach(x => Console.WriteLine(x));
                             Console.WriteLine("Done!");
                             return;
-                        }  
+                        }
                     }
                 }
 
@@ -103,61 +102,78 @@ namespace DesefioStone
                 }
 
                 map.Clear();
-                int[,] matriz2 = new int[5, 5];
-                int[,] matrizAux = new int[5, 5];
+                //int a = 0;
 
-                for (int xi = 0; xi < matriz.GetLength(0); xi++)
-                {
-                    string linha = "";
-                    for (int yi = 0; yi < matriz.GetLength(1); yi++)
-                    {
-                        matriz2[xi, yi] = matriz[xi, yi] == 1 ? virarBranca(matriz, xi, yi) : virarVerde(matriz, xi, yi);
-                        linha += matriz2[xi, yi].ToString();
-                    }
-                    map.Add(linha);
-                }
+                //int[,] matrizSaida = new int[5, 5];
+                //int[,] matrizAux = new int[5, 5];
+                //while (a < 50)
+                //{
+                //    for (int xi = 0; xi < matriz.GetLength(0); xi++)
+                //    {
+                //        string linha = "";
+                //        for (int yi = 0; yi < matriz.GetLength(1); yi++)
+                //        {
+                //            matrizSaida[xi, yi] = matriz[xi, yi] == 1 ? virarBranca(matriz, xi, yi) : virarVerde(matriz, xi, yi);
+                //            linha += matrizSaida[xi, yi].ToString();
+                //        }
+                //        //map.Add(linha);
+                //    }
 
-                matrizAux = matriz;
-                matriz = matriz2;
-                matriz2 = matrizAux;
+                //    matrizAux = matriz;
+                //    matriz = matrizSaida;
+                //    matrizSaida = matrizAux;
+
+                //    Console.WriteLine(a.ToString());
+                //    printMatrix(matrizSaida);
+                //    Console.WriteLine();
+                //    printMatrix(matriz);
+                //    Console.WriteLine();
+                //    a++;
+                //}
             }
 
-            Console.WriteLine("No Path Found!");
+            //Console.WriteLine("No Path Found!");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //for (int xi = 0; xi < matriz.GetLength(0); xi++)
-            //{
-            //    for (int yi = 0; yi < matriz.GetLength(1); yi++)
-            //    {
-            //        matriz[xi, yi] = matriz[xi, yi] == 1 ? virarVerde(matriz, xi, yi) : virarBranca(matriz, xi, yi);
-            //    }
-            //}
-
-            // Para esta fase, o modelo de propagação é o seguinte: branca 0, verde 1
-            // As células brancas transformam-se em verdes, se possuírem número de células adjacentes verdes maior do que 1 e menor do que 5.Do contrário, permanecem brancas.
-            // As células verdes permanecem verdes se possuírem número de células adjacentes verdes maior do que 3 e menor do que 6.Do contrário, transformam - se em brancas.
-            // Duas células são consideradas adjacentes se possuem uma fronteira, seja na lateral, acima, abaixo ou diagonalmente.No exemplo abaixo, a célula branca no centro possui, portanto, 8 células brancas adjacentes.
-
-            //interações
-            //virando verde: As células brancas transformam-se em verdes, se possuírem número de células adjacentes verdes maior do que 1 e menor do que 5.Do contrário, permanecem brancas.
-
-            //printMatrix(matriz);
         }
+
+        private static int[,] Progapacao(int[,] matrixIn)
+        {
+            int[,] matrixOut = new int[5, 5];
+            int[,] matrizAux = new int[5, 5];
+
+            for (int xi = 0; xi < matrixIn.GetLength(0); xi++)
+            {
+                string linha = "";
+                for (int yi = 0; yi < matrixIn.GetLength(1); yi++)
+                {
+                    matrixOut[xi, yi] = matrixIn[xi, yi] == 1 ? virarBranca(matrixIn, xi, yi) : virarVerde(matrixIn, xi, yi);
+                    linha += matrixOut[xi, yi].ToString();
+                }
+            }
+
+            matrizAux = matrixIn;
+            matrixIn = matrixOut;
+            matrixOut = matrizAux;
+
+            return matrixOut;
+        }
+
+
+        //for (int xi = 0; xi < matriz.GetLength(0); xi++)
+        //{
+        //    for (int yi = 0; yi < matriz.GetLength(1); yi++)
+        //    {
+        //        matriz[xi, yi] = matriz[xi, yi] == 1 ? virarVerde(matriz, xi, yi) : virarBranca(matriz, xi, yi);
+        //    }
+        //}
+
+        // Para esta fase, o modelo de propagação é o seguinte: branca 0, verde 1
+        // As células brancas transformam-se em verdes, se possuírem número de células adjacentes verdes maior do que 1 e menor do que 5.Do contrário, permanecem brancas.
+        // As células verdes permanecem verdes se possuírem número de células adjacentes verdes maior do que 3 e menor do que 6.Do contrário, transformam - se em brancas.
+        // Duas células são consideradas adjacentes se possuem uma fronteira, seja na lateral, acima, abaixo ou diagonalmente.No exemplo abaixo, a célula branca no centro possui, portanto, 8 células brancas adjacentes.
+
+        //interações
+        //virando verde: As células brancas transformam-se em verdes, se possuírem número de células adjacentes verdes maior do que 1 e menor do que 5.Do contrário, permanecem brancas.
 
 
         private static List<string> printMatrix(int[,] matrix)
@@ -301,3 +317,4 @@ namespace DesefioStone
         }
     }
 }
+
